@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Gomantak Gausevak Mahasang</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2d7a3e',
+                        dark: '#1e5a2b',
+                        accent: '#d4a017',
+                        text: '#333333',
+                        light: '#f5f5f5',
+                    },
+                    fontFamily: { inter: ['Inter', 'system-ui', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { font-family: 'Inter', system-ui, sans-serif; }
+        .hero-bg { background: linear-gradient(135deg, rgba(45,122,62,0.9) 0%, rgba(30,90,43,0.95) 100%), url('images/10_Big_Face_Portrait_Of_Indian_Cows.png'); background-size: cover; background-position: center; }
+        .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        .scroll-top { opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        .scroll-top.show { opacity: 1; visibility: visible; }
+        .mobile-menu { transform: translateX(100%); transition: transform 0.3s ease; }
+        .mobile-menu.open { transform: translateX(0); }
+        .gallery-item { break-inside: avoid; margin-bottom: 1rem; cursor: pointer; transition: all 0.3s ease; }
+        .gallery-item:hover { transform: scale(1.02); }
+        .gallery-item.hidden { display: none; }
+        .filter-btn { transition: all 0.2s ease; }
+        .filter-btn.active { background: #2d7a3e; color: white; }
+        .lightbox {
+            display: none; position: fixed; inset: 0; z-index: 100;
+            background: rgba(0,0,0,0.92); align-items: center; justify-content: center;
+        }
+        .lightbox.active { display: flex; }
+        .lightbox img { max-width: 90%; max-height: 85vh; object-fit: contain; border-radius: 1rem; }
+        .lightbox-nav {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 50px; height: 50px; background: rgba(255,255,255,0.2);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: white; cursor: pointer; transition: all 0.2s; backdrop-filter: blur(4px);
+        }
+        .lightbox-nav:hover { background: rgba(255,255,255,0.4); }
+        .lightbox-prev { left: 20px; }
+        .lightbox-next { right: 20px; }
+        .lightbox-close {
+            position: absolute; top: 20px; right: 20px;
+            width: 44px; height: 44px; background: rgba(255,255,255,0.2);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: white; cursor: pointer; transition: all 0.2s; backdrop-filter: blur(4px);
+        }
+        .lightbox-close:hover { background: rgba(255,255,255,0.4); }
+        .lightbox-caption {
+            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: rgba(0,0,0,0.6); color: white; padding: 8px 20px;
+            border-radius: 2rem; font-size: 0.9rem; backdrop-filter: blur(4px);
+        }
+        .masonry-grid { column-count: 1; column-gap: 1rem; }
+        @media (min-width: 640px) { .masonry-grid { column-count: 2; } }
+        @media (min-width: 1024px) { .masonry-grid { column-count: 3; } }
+        .section-img { object-fit: cover; width: 100%; height: 100%; }
+    </style>
+</head>
+<body class="bg-light font-inter text-text antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-white shadow-sm transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 lg:h-20">
+                <a href="index.html" class="flex items-center gap-3">
+                    <div class="hidden sm:block">
+                        <h1 class="text-lg lg:text-xl font-bold text-primary leading-tight">Gomantak Gausevak</h1>
+                        <p class="text-xs text-gray-500">Mahasang</p>
+                    </div>
+                </a>
+                <div class="hidden lg:flex items-center gap-8">
+                    <a href="index.html" class="text-gray-600 hover:text-primary font-medium transition-colors">Home</a>
+                    <a href="about.html" class="text-gray-600 hover:text-primary font-medium transition-colors">About Us</a>
+                    <a href="gallery.html" class="text-primary font-semibold border-b-2 border-primary pb-1">Gallery</a>
+                    <a href="contact.html" class="text-gray-600 hover:text-primary font-medium transition-colors">Contact</a>
+                    <a href="donate.html" class="bg-primary hover:bg-dark text-white px-6 py-2.5 rounded-full font-semibold transition-all shadow-lg hover:shadow-xl">
+                        <i class="fas fa-heart mr-2"></i>Donate Now
+                    </a>
+                </div>
+                <button class="lg:hidden text-gray-700 text-2xl" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars" id="menuIcon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu fixed top-0 right-0 w-72 h-full bg-white z-50 shadow-2xl p-6" id="mobileMenu">
+        <button class="absolute top-4 right-4 text-2xl text-gray-500" onclick="toggleMobileMenu()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="mt-12 flex flex-col gap-6">
+            <a href="index.html" class="text-gray-700 font-medium text-lg">Home</a>
+            <a href="about.html" class="text-gray-700 font-medium text-lg">About Us</a>
+            <a href="gallery.html" class="text-primary font-bold text-lg">Gallery</a>
+            <a href="contact.html" class="text-gray-700 font-medium text-lg">Contact</a>
+            <a href="donate.html" class="bg-primary text-white px-6 py-3 rounded-full font-semibold text-center mt-4">
+                <i class="fas fa-heart mr-2"></i>Donate Now
+            </a>
+        </div>
+    </div>
+    <div class="fixed inset-0 bg-black/50 z-40 hidden" id="mobileOverlay" onclick="toggleMobileMenu()"></div>
+
+    <!-- Page Header -->
+    <section class="hero-bg pt-32 pb-20 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white relative z-10">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 drop-shadow-lg">Gallery</h1>
+            <p class="text-lg sm:text-xl text-white/80 max-w-2xl mx-auto drop-shadow-md">Explore moments from our Goshala - the cows, activities, and events that make our community special.</p>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Filter Buttons -->
+            <div class="flex flex-wrap justify-center gap-3 mb-12 fade-in">
+                <button class="filter-btn active px-6 py-2.5 rounded-full font-semibold border-2 border-primary bg-primary text-white" onclick="filterGallery('all')">All</button>
+                <button class="filter-btn px-6 py-2.5 rounded-full font-semibold border-2 border-gray-200 text-gray-600 hover:border-primary hover:text-primary" onclick="filterGallery('cows')">Cows</button>
+                <button class="filter-btn px-6 py-2.5 rounded-full font-semibold border-2 border-gray-200 text-gray-600 hover:border-primary hover:text-primary" onclick="filterGallery('activities')">Activities</button>
+                <button class="filter-btn px-6 py-2.5 rounded-full font-semibold border-2 border-gray-200 text-gray-600 hover:border-primary hover:text-primary" onclick="filterGallery('events')">Events</button>
+            </div>
+
+            <!-- Masonry Grid -->
+            <div class="masonry-grid" id="galleryGrid">
+                <!-- Cows -->
+                <div class="gallery-item rounded-2xl overflow-hidden shadow-lg" data-category="cows" onclick="openLightbox(0)">
+                    <div class="relative group">
+                        <img src="images/10_Big_Face_Portrait_Of_Indian_Cows.png" alt="Ganga - Our First Rescue" class="w-full h-auto">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                            <span class="text-white font-semibold">Ganga - Our First Rescue</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item rounded-2xl overflow-hidden shadow-lg" data-category="cows" onclick="openLightbox(1)">
+                    <div class="relative group">
+                        <img src="images/4_Indian_Cow_Close_Up_View_Stock_Photo.png" alt="Lakshmi - Sahiwal Beauty" class="w-full h-auto">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                            <span class="text-white font-semibold">Lakshmi - Sahiwal Beauty</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item rounded-2xl overflow-hidden shadow-lg" data-category="cows" onclick="openLightbox(2)">
+                    <div class="relative group">
+                        <img src="images/6_Close_up_Portrait_Indian_Gir_Cow.png" alt="Saraswati - Young Calf" class="w-full h-auto">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                            <span class="text-white font-semibold">Saraswati - Young Calf</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item rounded-2xl overflow-hidden shadow-lg" data-category="cows" onclick="openLightbox(3)">
+                    <div class="relative group">
+                        <img src="images/1_Domesticated_Indian_Cow_Grazing_Grass.png" alt="Nandi - Strong Bull" class="w-full h-auto">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                            <span class="text-white font-semibold">Nandi - Strong Bull</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item rounded-2xl overflow-hidden shadow-lg" data-category="cows" onclick="openLightbox(4)">
+                    <div class="relative group">
+                        <img src="images/9_Calf_Grazing_Green_Field_Indian_Calf.png" alt="Kamadhenu - Mother Cow" class="w-full h-auto">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                            <span class="text-white font-semibold">Kamadhenu - Mother Cow</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item rounded-2xl overflow-hidden shadow-lg" data-category="cows" onclick="openLightbox(5)">
+                    <div class="relative group">
+                        <img src="images/3_Cow_eating_grass_in_a_green_field.png" alt="Parvati - Playful Calf" class="w-full h-auto">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                            <span class="text-white font-semibold">Parvati - Playful Calf</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activities -->
+                <div class="gallery-item rounded-2xl overflow-hidden shadow-lg" data-category="activities" onclick="openLightbox(6)">
+                    <div class="relative group">
+                        <img src="images/7_ISKCON_GEV_Goshala_Feed_Cows.png" alt="Morning Feeding Session" class="w-full h-auto">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                            <span class="text-white font-semibold">Morning Feeding Session</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item rounded-2xl overflow-hidden shadow-lg" data-category="activities" onclick="openLightbox(7)">
+                    <div class="relative group">
+                        <img src="images/8_Cow_Veterinary_Treatment_Services.png" alt="Veterinary Checkup" class="w-full h-auto">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                            <span class="text-white font-semibold">Veterinary Checkup</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item rounded-2xl overflow-hidden shadow-lg" data-category="activities" onclick="openLightbox(8)">
+                    <div class="relative group">
+                        <img src="images/9_compartment_S4_completes_a_bamboo.png" alt="Cleaning the Shelter" class="w-full h-auto">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                            <span class="text-white font-semibold">Cleaning the Shelter</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item rounded-2xl overflow-hidden shadow-lg" data-category="activities" onclick="openLightbox(9)">
+                    <div class="relative group">
+                        <img src="images/2_Volunteer_with_animals_in_India_Volunteer.png" alt="Volunteers at Work" class="w-full h-auto">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                            <span class="text-white font-semibold">Volunteers at Work</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Events -->
+                <div class="gallery-item rounded-2xl overflow-hidden shadow-lg" data-category="events" onclick="openLightbox(10)">
+                    <div class="relative group">
+                        <img src="images/4_The_Significance_of_Cow_Worship_Gau.png" alt="Gau Pooja Ceremony" class="w-full h-auto">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                            <span class="text-white font-semibold">Gau Pooja Ceremony</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item rounded-2xl overflow-hidden shadow-lg" data-category="events" onclick="openLightbox(11)">
+                    <div class="relative group">
+                        <img src="images/5_Edayanchavadi_India_10th_december.png" alt="School Visit Program" class="w-full h-auto">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                            <span class="text-white font-semibold">School Visit Program</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item rounded-2xl overflow-hidden shadow-lg" data-category="events" onclick="openLightbox(12)">
+                    <div class="relative group">
+                        <img src="images/1_Krishnayan_Gauraksha_Online_Cow_Donation.png" alt="Donation Drive 2023" class="w-full h-auto">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                            <span class="text-white font-semibold">Donation Drive 2023</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item rounded-2xl overflow-hidden shadow-lg" data-category="events" onclick="openLightbox(13)">
+                    <div class="relative group">
+                        <img src="images/2_Donate_To_Goshala.png" alt="Annual Day Celebration" class="w-full h-auto">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                            <span class="text-white font-semibold">Annual Day Celebration</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+        <button class="lightbox-close" onclick="closeLightbox(event)">
+            <i class="fas fa-times text-xl"></i>
+        </button>
+        <button class="lightbox-nav lightbox-prev" onclick="prevImage(event)">
+            <i class="fas fa-chevron-left text-xl"></i>
+        </button>
+        <button class="lightbox-nav lightbox-next" onclick="nextImage(event)">
+            <i class="fas fa-chevron-right text-xl"></i>
+        </button>
+        <img src="" alt="Gallery Image" id="lightboxImg">
+        <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="mb-4">
+                        <h3 class="font-bold text-lg">Gomantak Gausevak</h3>
+                        <p class="text-xs text-gray-400">Mahasang</p>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">Largest shelter for stray & abandoned Desi Cows in Goa.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-primary transition-colors">Home</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-primary transition-colors">About Us</a></li>
+                        <li><a href="gallery.html" class="text-gray-400 hover:text-primary transition-colors">Gallery</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-primary transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Get Involved</h4>
+                    <ul class="space-y-2">
+                        <li><a href="donate.html" class="text-gray-400 hover:text-primary transition-colors">Donate</a></li>
+                        <li><a href="adopt.html" class="text-gray-400 hover:text-primary transition-colors">Adopt a Cow</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Contact Us</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3"><i class="fas fa-envelope text-primary mt-1"></i><span class="text-gray-400 text-sm">gomantakgausevak@gmail.com</span></li>
+                        <li class="flex items-start gap-3"><i class="fas fa-phone text-primary mt-1"></i><span class="text-gray-400 text-sm">+91 9226076916</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center">
+                <p class="text-gray-500 text-sm">&copy; 2024 Gomantak Gausevak Mahasang. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="scroll-top fixed bottom-6 right-6 w-12 h-12 bg-primary hover:bg-dark text-white rounded-full shadow-lg flex items-center justify-center z-40 transition-all" id="scrollTop" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Gallery-specific JavaScript
+        let currentLightboxIndex = 0;
+        let visibleItems = [];
+
+        function filterGallery(category) {
+            const items = document.querySelectorAll('.gallery-item');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            buttons.forEach(btn => {
+                btn.classList.remove('active', 'bg-primary', 'text-white', 'border-primary');
+                btn.classList.add('text-gray-600', 'border-gray-200');
+            });
+            event.target.classList.add('active', 'bg-primary', 'text-white', 'border-primary');
+            event.target.classList.remove('text-gray-600', 'border-gray-200');
+
+            items.forEach(item => {
+                if (category === 'all' || item.dataset.category === category) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        }
+
+        function updateVisibleItems() {
+            visibleItems = Array.from(document.querySelectorAll('.gallery-item:not(.hidden)'));
+        }
+
+        function openLightbox(index) {
+            updateVisibleItems();
+            currentLightboxIndex = index;
+            const item = visibleItems[index];
+            if (!item) return;
+
+            const img = item.querySelector('img');
+            const caption = item.querySelector('span')?.textContent || 'Gallery Image';
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightboxImg');
+            const cap = document.getElementById('lightboxCaption');
+
+            lightboxImg.src = img.src;
+            cap.textContent = caption;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox(e) {
+            if (e.target === e.currentTarget || e.target.closest('.lightbox-close')) {
+                document.getElementById('lightbox').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function prevImage(e) {
+            e.stopPropagation();
+            updateVisibleItems();
+            currentLightboxIndex = (currentLightboxIndex - 1 + visibleItems.length) % visibleItems.length;
+            openLightbox(currentLightboxIndex);
+        }
+
+        function nextImage(e) {
+            e.stopPropagation();
+            updateVisibleItems();
+            currentLightboxIndex = (currentLightboxIndex + 1) % visibleItems.length;
+            openLightbox(currentLightboxIndex);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            const lightbox = document.getElementById('lightbox');
+            if (!lightbox.classList.contains('active')) return;
+            if (e.key === 'Escape') closeLightbox({target: lightbox, currentTarget: lightbox});
+            if (e.key === 'ArrowLeft') prevImage({stopPropagation: () => {}});
+            if (e.key === 'ArrowRight') nextImage({stopPropagation: () => {}});
+        });
+    </script>
+</body>
+</html>

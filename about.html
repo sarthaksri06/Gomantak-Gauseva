@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Gomantak Gausevak Mahasang</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2d7a3e',
+                        dark: '#1e5a2b',
+                        accent: '#d4a017',
+                        text: '#333333',
+                        light: '#f5f5f5',
+                    },
+                    fontFamily: { inter: ['Inter', 'system-ui', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { font-family: 'Inter', system-ui, sans-serif; }
+        .hero-bg { background: linear-gradient(135deg, rgba(45,122,62,0.9) 0%, rgba(30,90,43,0.95) 100%), url('images/5_Cow_Shelter_A_Safe_Home_to_Thousands.png'); background-size: cover; background-position: center; }
+        .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        .scroll-top { opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        .scroll-top.show { opacity: 1; visibility: visible; }
+        .mobile-menu { transform: translateX(100%); transition: transform 0.3s ease; }
+        .mobile-menu.open { transform: translateX(0); }
+        .section-img { object-fit: cover; width: 100%; height: 100%; }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 1rem; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 1rem; }
+    </style>
+</head>
+<body class="bg-light font-inter text-text antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-white shadow-sm transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 lg:h-20">
+                <a href="index.html" class="flex items-center gap-3">
+                    <div class="hidden sm:block">
+                        <h1 class="text-lg lg:text-xl font-bold text-primary leading-tight">Gomantak Gausevak</h1>
+                        <p class="text-xs text-gray-500">Mahasang</p>
+                    </div>
+                </a>
+                <div class="hidden lg:flex items-center gap-8">
+                    <a href="index.html" class="text-gray-600 hover:text-primary font-medium transition-colors">Home</a>
+                    <a href="about.html" class="text-primary font-semibold border-b-2 border-primary pb-1">About Us</a>
+                    <a href="gallery.html" class="text-gray-600 hover:text-primary font-medium transition-colors">Gallery</a>
+                    <a href="contact.html" class="text-gray-600 hover:text-primary font-medium transition-colors">Contact</a>
+                    <a href="donate.html" class="bg-primary hover:bg-dark text-white px-6 py-2.5 rounded-full font-semibold transition-all shadow-lg hover:shadow-xl">
+                        <i class="fas fa-heart mr-2"></i>Donate Now
+                    </a>
+                </div>
+                <button class="lg:hidden text-gray-700 text-2xl" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars" id="menuIcon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu fixed top-0 right-0 w-72 h-full bg-white z-50 shadow-2xl p-6" id="mobileMenu">
+        <button class="absolute top-4 right-4 text-2xl text-gray-500" onclick="toggleMobileMenu()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="mt-12 flex flex-col gap-6">
+            <a href="index.html" class="text-gray-700 font-medium text-lg">Home</a>
+            <a href="about.html" class="text-primary font-bold text-lg">About Us</a>
+            <a href="gallery.html" class="text-gray-700 font-medium text-lg">Gallery</a>
+            <a href="contact.html" class="text-gray-700 font-medium text-lg">Contact</a>
+            <a href="donate.html" class="bg-primary text-white px-6 py-3 rounded-full font-semibold text-center mt-4">
+                <i class="fas fa-heart mr-2"></i>Donate Now
+            </a>
+        </div>
+    </div>
+    <div class="fixed inset-0 bg-black/50 z-40 hidden" id="mobileOverlay" onclick="toggleMobileMenu()"></div>
+
+    <!-- Page Header -->
+    <section class="hero-bg pt-32 pb-20 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white relative z-10">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 drop-shadow-lg">About Us</h1>
+            <p class="text-lg sm:text-xl text-white/80 max-w-2xl mx-auto drop-shadow-md">Learn about our mission, values, and the work we do for cow protection in Goa.</p>
+        </div>
+    </section>
+
+    <!-- Mission Statement -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="fade-in">
+                    <span class="text-primary font-semibold text-sm uppercase tracking-wider">Who We Are</span>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-text mt-2 mb-6">Gomantak Gausevak Mahasang</h2>
+                    <p class="text-gray-600 leading-relaxed mb-6">
+                        Gomantak Mahasangh is the biggest shelter for stray cattle's in Goa. The purpose of Mahasangh is to care for stray, abandoned as well as all other Desi Cows (Gomata) & its offsprings (Govansh).
+                    </p>
+                    <p class="text-gray-600 leading-relaxed mb-6">
+                        Our Goshala is a sanctuary for cows, providing a safe and nurturing environment for them to live out their lives in peace and dignity. At our Goshala, we believe that cows are not just mere animals, but divine creatures that deserve our love and respect.
+                    </p>
+                    <p class="text-gray-600 leading-relaxed">
+                        We are committed to the protection and preservation of cows, and strive to promote their welfare in every way possible. Among the cows that do produce milk, priority is always given to their calves to ensure their healthy growth.
+                    </p>
+                </div>
+                <div class="fade-in">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="rounded-2xl overflow-hidden shadow-lg h-64">
+                            <img src="images/10_Land_of_Sacred_Cows_India_History.png" alt="Sacred cows" class="section-img hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="rounded-2xl overflow-hidden shadow-lg h-64 mt-8">
+                            <img src="images/4_The_Significance_of_Cow_Worship_Gau.png" alt="Cow worship" class="section-img hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="rounded-2xl overflow-hidden shadow-lg h-64 -mt-8">
+                            <img src="images/3_Aerial_View_Indian_Cattle_Shelterat.png" alt="Aerial view" class="section-img hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="rounded-2xl overflow-hidden shadow-lg h-64">
+                            <img src="images/1_Domesticated_Indian_Cow_Grazing_Grass.png" alt="Cow grazing" class="section-img hover:scale-110 transition-transform duration-500">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- YouTube Video Section -->
+    <section class="py-20 bg-light">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-in">
+                <span class="text-primary font-semibold text-sm uppercase tracking-wider">Watch Our Story</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-text mt-2">Gomantak Gausevak Mahasangh</h2>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">Experience the beauty and majesty of our Goshala. Watch how we care for these divine creatures.</p>
+                <div class="w-20 h-1 bg-primary mx-auto mt-4 rounded-full"></div>
+            </div>
+            <div class="video-container shadow-2xl fade-in">
+                <iframe 
+                    src="https://www.youtube.com/embed/vfuMRmZLCB8?rel=0&modestbranding=1" 
+                    title="Gomantak Gausevak Mahasangh Video" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <span class="text-primary font-semibold text-sm uppercase tracking-wider">What We Provide</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-text mt-2">Our Services</h2>
+                <div class="w-20 h-1 bg-primary mx-auto mt-4 rounded-full"></div>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all fade-in">
+                    <div class="h-48 overflow-hidden">
+                        <img src="images/7_ISKCON_GEV_Goshala_Feed_Cows.png" alt="Food and nutrition" class="section-img hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="p-8">
+                        <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6">
+                            <i class="fas fa-utensils text-3xl text-primary"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-text mb-3">Food & Nutrition</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            We provide fresh fodder, hay, grains, and nutritional supplements daily. Our cows receive a balanced diet tailored to their health needs.
+                        </p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all fade-in">
+                    <div class="h-48 overflow-hidden">
+                        <img src="images/5_Cow_Shelter_A_Safe_Home_to_Thousands.png" alt="Shelter and care" class="section-img hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="p-8">
+                        <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6">
+                            <i class="fas fa-home text-3xl text-primary"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-text mb-3">Shelter & Care</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Spacious, clean shelters with proper ventilation and bedding. Each cow has adequate space to move freely and rest comfortably.
+                        </p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all fade-in">
+                    <div class="h-48 overflow-hidden">
+                        <img src="images/8_Cow_Veterinary_Treatment_Services.png" alt="Medical care" class="section-img hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="p-8">
+                        <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6">
+                            <i class="fas fa-stethoscope text-3xl text-primary"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-text mb-3">Medical Care</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Regular veterinary checkups, vaccinations, and treatment for injuries. We have a dedicated medical facility with trained staff.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Values Section -->
+    <section class="py-20 bg-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <span class="text-primary font-semibold text-sm uppercase tracking-wider">Our Principles</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-text mt-2">Our Values</h2>
+                <div class="w-20 h-1 bg-primary mx-auto mt-4 rounded-full"></div>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-lg transition-all fade-in">
+                    <div class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-heart text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="font-bold text-text mb-2">Compassion</h3>
+                    <p class="text-gray-600 text-sm">Treating every cow with love, dignity, and respect.</p>
+                </div>
+                <div class="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-lg transition-all fade-in">
+                    <div class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-shield-alt text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="font-bold text-text mb-2">Protection</h3>
+                    <p class="text-gray-600 text-sm">Committed to safeguarding cows from harm and exploitation.</p>
+                </div>
+                <div class="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-lg transition-all fade-in">
+                    <div class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-leaf text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="font-bold text-text mb-2">Sustainability</h3>
+                    <p class="text-gray-600 text-sm">Promoting eco-friendly and ethical practices in cow care.</p>
+                </div>
+                <div class="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-lg transition-all fade-in">
+                    <div class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-hands-helping text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="font-bold text-text mb-2">Community</h3>
+                    <p class="text-gray-600 text-sm">Building a community of cow lovers and protectors.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Google Maps Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-in">
+                <span class="text-primary font-semibold text-sm uppercase tracking-wider">Find Us</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-text mt-2">Visit Our Goshala</h2>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">Located in the serene village of Sikeri, Mayem, Bicholim, Goa.</p>
+                <div class="w-20 h-1 bg-primary mx-auto mt-4 rounded-full"></div>
+            </div>
+            <div class="rounded-2xl overflow-hidden shadow-2xl fade-in">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15395.0!2d73.9!3d15.6!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTXCsDM2JzAwLjAiTiA3M8KwNTQnMDAuMCJF!5e0!3m2!1sen!2sin!4v1234567890" 
+                    width="100%" 
+                    height="450" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+            <div class="text-center mt-6">
+                <a href="https://maps.app.goo.gl/axKCg37wPPEwoF1P8" target="_blank" class="inline-flex items-center gap-2 bg-primary hover:bg-dark text-white px-6 py-3 rounded-full font-semibold transition-all shadow-lg hover:shadow-xl">
+                    <i class="fas fa-map-marker-alt"></i> Visit Our Gaushala
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Info Banner -->
+    <section class="py-16 hero-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8 text-center text-white">
+                <div class="fade-in">
+                    <div class="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-envelope text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">Email Us</h3>
+                    <p class="text-white/80">gomantakgausevak@gmail.com</p>
+                </div>
+                <div class="fade-in">
+                    <div class="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-phone text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">Call Us</h3>
+                    <p class="text-white/80">+91 9226076916</p>
+                </div>
+                <div class="fade-in">
+                    <div class="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-map-marker-alt text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">Visit Us</h3>
+                    <p class="text-white/80">Sikeri, Mayem, Goa - 403504</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-light">
+        <div class="max-w-3xl mx-auto px-4 text-center fade-in">
+            <h2 class="text-3xl sm:text-4xl font-bold text-text mb-6">Join Our Mission</h2>
+            <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                We invite you to visit our Goshala and experience the beauty and majesty of these divine creatures firsthand. Whether you are interested in volunteering, donating, or simply learning more about our mission.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="donate.html" class="bg-primary hover:bg-dark text-white px-8 py-4 rounded-full font-bold text-lg transition-all shadow-lg hover:shadow-xl">
+                    <i class="fas fa-heart mr-2"></i>Donate Now
+                </a>
+                <a href="contact.html" class="bg-white border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-4 rounded-full font-bold text-lg transition-all">
+                    <i class="fas fa-envelope mr-2"></i>Contact Us
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="mb-4">
+                        <h3 class="font-bold text-lg">Gomantak Gausevak</h3>
+                        <p class="text-xs text-gray-400">Mahasang</p>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">Largest shelter for stray & abandoned Desi Cows in Goa. Providing care, shelter, and love since 2019.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-primary transition-colors">Home</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-primary transition-colors">About Us</a></li>
+                        <li><a href="gallery.html" class="text-gray-400 hover:text-primary transition-colors">Gallery</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-primary transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Get Involved</h4>
+                    <ul class="space-y-2">
+                        <li><a href="donate.html" class="text-gray-400 hover:text-primary transition-colors">Donate</a></li>
+                        <li><a href="adopt.html" class="text-gray-400 hover:text-primary transition-colors">Adopt a Cow</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-primary transition-colors">Volunteer</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Contact Us</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3"><i class="fas fa-envelope text-primary mt-1"></i><span class="text-gray-400 text-sm">gomantakgausevak@gmail.com</span></li>
+                        <li class="flex items-start gap-3"><i class="fas fa-phone text-primary mt-1"></i><span class="text-gray-400 text-sm">+91 9226076916</span></li>
+                        <li class="flex items-start gap-3"><i class="fas fa-map-marker-alt text-primary mt-1"></i><span class="text-gray-400 text-sm">Sikeri, Mayem, Goa - 403504</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-500 text-sm">&copy; 2024 Gomantak Gausevak Mahasang. All rights reserved.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="w-10 h-10 bg-gray-800 hover:bg-primary rounded-full flex items-center justify-center transition-colors"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="w-10 h-10 bg-gray-800 hover:bg-primary rounded-full flex items-center justify-center transition-colors"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="w-10 h-10 bg-gray-800 hover:bg-primary rounded-full flex items-center justify-center transition-colors"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="w-10 h-10 bg-gray-800 hover:bg-primary rounded-full flex items-center justify-center transition-colors"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <button class="scroll-top fixed bottom-6 right-6 w-12 h-12 bg-primary hover:bg-dark text-white rounded-full shadow-lg flex items-center justify-center z-40 transition-all" id="scrollTop" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

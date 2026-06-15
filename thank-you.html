@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You - Gomantak Gausevak Mahasang</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2d7a3e',
+                        dark: '#1e5a2b',
+                        accent: '#d4a017',
+                        text: '#333333',
+                        light: '#f5f5f5',
+                    },
+                    fontFamily: { inter: ['Inter', 'system-ui', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { font-family: 'Inter', system-ui, sans-serif; }
+        .hero-bg { background: linear-gradient(135deg, #2d7a3e 0%, #1e5a2b 100%); }
+        .checkmark { width: 80px; height: 80px; border-radius: 50%; display: block; stroke-width: 2; stroke: #fff; stroke-miterlimit: 10; margin: 0 auto; box-shadow: inset 0px 0px 0px #2d7a3e; animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both; }
+        .checkmark__circle { stroke-dasharray: 166; stroke-dashoffset: 166; stroke-width: 2; stroke-miterlimit: 10; stroke: #2d7a3e; fill: none; animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards; }
+        .checkmark__check { transform-origin: 50% 50%; stroke-dasharray: 48; stroke-dashoffset: 48; animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards; }
+        @keyframes stroke { 100% { stroke-dashoffset: 0; } }
+        @keyframes scale { 0%, 100% { transform: none; } 50% { transform: scale3d(1.1, 1.1, 1); } }
+        @keyframes fill { 100% { box-shadow: inset 0px 0px 0px 30px #2d7a3e; } }
+    </style>
+</head>
+<body class="bg-light font-inter text-text antialiased">
+
+    <div class="min-h-screen flex items-center justify-center hero-bg relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <pattern id="pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                    <circle cx="10" cy="10" r="2" fill="white" opacity="0.3"/>
+                </pattern>
+                <rect width="100%" height="100%" fill="url(#pattern)"/>
+            </svg>
+        </div>
+
+        <div class="max-w-lg mx-auto px-4 text-center text-white relative z-10">
+            <div class="mb-8">
+                <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                    <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                    <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                </svg>
+            </div>
+            <h1 class="text-4xl sm:text-5xl font-bold mb-4">Thank You!</h1>
+            <p class="text-lg sm:text-xl text-white/90 mb-2">Your contribution means the world to our cows.</p>
+            <p class="text-white/70 mb-8">We have received your submission and will get back to you shortly. A confirmation email has been sent to your inbox.</p>
+
+            <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-8">
+                <div class="flex items-center justify-center gap-4 mb-4">
+                    <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                        <i class="fas fa-receipt text-xl"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="text-sm text-white/70">Receipt ID</p>
+                        <p class="font-mono font-bold text-lg" id="receiptId">GG-2024-XXXX</p>
+                    </div>
+                </div>
+                <p class="text-sm text-white/60">Please save this for your records. Tax exemption certificate will be emailed separately.</p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="index.html" class="bg-white text-primary hover:bg-gray-100 px-8 py-3 rounded-full font-bold transition-all shadow-lg">
+                    <i class="fas fa-home mr-2"></i>Back to Home
+                </a>
+                <a href="donate.html" class="bg-white/20 hover:bg-white/30 text-white border-2 border-white/50 px-8 py-3 rounded-full font-bold transition-all">
+                    <i class="fas fa-heart mr-2"></i>Donate Again
+                </a>
+            </div>
+
+            <div class="mt-8">
+                <a href="https://maps.app.goo.gl/axKCg37wPPEwoF1P8" target="_blank" class="inline-flex items-center gap-2 text-white/80 hover:text-white transition-colors">
+                    <i class="fas fa-map-marker-alt"></i> Visit Our Gaushala
+                </a>
+            </div>
+
+            <div class="mt-8 flex justify-center gap-6">
+                <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const receiptId = 'GG-' + new Date().getFullYear() + '-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+        document.getElementById('receiptId').textContent = receiptId;
+
+        const submissions = JSON.parse(localStorage.getItem('gg_submissions') || '[]');
+        const lastSubmission = submissions[submissions.length - 1];
+        if (lastSubmission) {
+            lastSubmission.receiptId = receiptId;
+            localStorage.setItem('gg_submissions', JSON.stringify(submissions));
+        }
+    </script>
+</body>
+</html>

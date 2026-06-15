@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adopt a Cow - Gomantak Gausevak Mahasang</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2d7a3e',
+                        dark: '#1e5a2b',
+                        accent: '#d4a017',
+                        text: '#333333',
+                        light: '#f5f5f5',
+                    },
+                    fontFamily: { inter: ['Inter', 'system-ui', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { font-family: 'Inter', system-ui, sans-serif; }
+        .hero-bg { background: linear-gradient(135deg, rgba(45,122,62,0.9) 0%, rgba(30,90,43,0.95) 100%), url('images/6_Goshala.png'); background-size: cover; background-position: center; }
+        .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        .scroll-top { opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        .scroll-top.show { opacity: 1; visibility: visible; }
+        .mobile-menu { transform: translateX(100%); transition: transform 0.3s ease; }
+        .mobile-menu.open { transform: translateX(0); }
+        .cow-card { transition: all 0.3s ease; }
+        .cow-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+        .modal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; padding: 1rem; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; border-radius: 1.5rem; max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; }
+        .amount-select { transition: all 0.2s ease; }
+        .amount-select.active { background: #2d7a3e; color: white; border-color: #2d7a3e; }
+        .toast {
+            position: fixed; top: 20px; right: 20px; z-index: 1000;
+            transform: translateX(120%); transition: transform 0.4s ease;
+        }
+        .toast.show { transform: translateX(0); }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 1rem; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 1rem; }
+        .section-img { object-fit: cover; width: 100%; height: 100%; }
+    </style>
+</head>
+<body class="bg-light font-inter text-text antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-white shadow-sm transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 lg:h-20">
+                <a href="index.html" class="flex items-center gap-3">
+                    <div class="hidden sm:block">
+                        <h1 class="text-lg lg:text-xl font-bold text-primary leading-tight">Gomantak Gausevak</h1>
+                        <p class="text-xs text-gray-500">Mahasang</p>
+                    </div>
+                </a>
+                <div class="hidden lg:flex items-center gap-8">
+                    <a href="index.html" class="text-gray-600 hover:text-primary font-medium transition-colors">Home</a>
+                    <a href="about.html" class="text-gray-600 hover:text-primary font-medium transition-colors">About Us</a>
+                    <a href="gallery.html" class="text-gray-600 hover:text-primary font-medium transition-colors">Gallery</a>
+                    <a href="contact.html" class="text-gray-600 hover:text-primary font-medium transition-colors">Contact</a>
+                    <a href="donate.html" class="bg-primary hover:bg-dark text-white px-6 py-2.5 rounded-full font-semibold transition-all shadow-lg hover:shadow-xl">
+                        <i class="fas fa-heart mr-2"></i>Donate Now
+                    </a>
+                </div>
+                <button class="lg:hidden text-gray-700 text-2xl" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars" id="menuIcon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu fixed top-0 right-0 w-72 h-full bg-white z-50 shadow-2xl p-6" id="mobileMenu">
+        <button class="absolute top-4 right-4 text-2xl text-gray-500" onclick="toggleMobileMenu()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="mt-12 flex flex-col gap-6">
+            <a href="index.html" class="text-gray-700 font-medium text-lg">Home</a>
+            <a href="about.html" class="text-gray-700 font-medium text-lg">About Us</a>
+            <a href="gallery.html" class="text-gray-700 font-medium text-lg">Gallery</a>
+            <a href="contact.html" class="text-gray-700 font-medium text-lg">Contact</a>
+            <a href="donate.html" class="bg-primary text-white px-6 py-3 rounded-full font-semibold text-center mt-4">
+                <i class="fas fa-heart mr-2"></i>Donate Now
+            </a>
+        </div>
+    </div>
+    <div class="fixed inset-0 bg-black/50 z-40 hidden" id="mobileOverlay" onclick="toggleMobileMenu()"></div>
+
+    <!-- Page Header -->
+    <section class="hero-bg pt-32 pb-20 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white relative z-10">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 drop-shadow-lg">Adopt a Cow</h1>
+            <p class="text-lg sm:text-xl text-white/80 max-w-2xl mx-auto drop-shadow-md">Sponsor a cow and receive regular updates about their well-being. Your monthly contribution ensures they get the best care.</p>
+        </div>
+    </section>
+
+    <!-- Cow Grid -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-in">
+                <span class="text-primary font-semibold text-sm uppercase tracking-wider">Meet Our Cows</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-text mt-2">Cows Available for Adoption</h2>
+                <div class="w-20 h-1 bg-primary mx-auto mt-4 rounded-full"></div>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6" id="cowGrid">
+                <!-- Cow 1 -->
+                <div class="cow-card bg-white rounded-2xl shadow-lg overflow-hidden fade-in">
+                    <div class="h-56 overflow-hidden">
+                        <img src="images/10_Big_Face_Portrait_Of_Indian_Cows.png" alt="Ganga" class="section-img hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-xl font-bold text-text">Ganga</h3>
+                            <span class="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">Available</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-500 mb-3">
+                            <i class="fas fa-birthday-cake text-primary"></i>
+                            <span>4 years old</span>
+                            <span class="mx-1">•</span>
+                            <i class="fas fa-heart-pulse text-green-500"></i>
+                            <span>Healthy</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Ganga is a gentle Gir cow who loves being around people. She was rescued from a roadside in Panjim.</p>
+                        <button onclick="openAdoptModal('Ganga', '4 years', 'Healthy')" class="w-full bg-primary hover:bg-dark text-white py-3 rounded-xl font-semibold transition-all">
+                            Adopt Now <i class="fas fa-paw ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Cow 2 -->
+                <div class="cow-card bg-white rounded-2xl shadow-lg overflow-hidden fade-in">
+                    <div class="h-56 overflow-hidden">
+                        <img src="images/4_Indian_Cow_Close_Up_View_Stock_Photo.png" alt="Lakshmi" class="section-img hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-xl font-bold text-text">Lakshmi</h3>
+                            <span class="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">Available</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-500 mb-3">
+                            <i class="fas fa-birthday-cake text-primary"></i>
+                            <span>6 years old</span>
+                            <span class="mx-1">•</span>
+                            <i class="fas fa-heart-pulse text-green-500"></i>
+                            <span>Healthy</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Lakshmi is a calm Sahiwal cow. She was abandoned by her previous owner and found wandering near Mapusa.</p>
+                        <button onclick="openAdoptModal('Lakshmi', '6 years', 'Healthy')" class="w-full bg-primary hover:bg-dark text-white py-3 rounded-xl font-semibold transition-all">
+                            Adopt Now <i class="fas fa-paw ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Cow 3 -->
+                <div class="cow-card bg-white rounded-2xl shadow-lg overflow-hidden fade-in">
+                    <div class="h-56 overflow-hidden">
+                        <img src="images/6_Close_up_Portrait_Indian_Gir_Cow.png" alt="Saraswati" class="section-img hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-xl font-bold text-text">Saraswati</h3>
+                            <span class="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">Available</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-500 mb-3">
+                            <i class="fas fa-birthday-cake text-primary"></i>
+                            <span>3 years old</span>
+                            <span class="mx-1">•</span>
+                            <i class="fas fa-heart-pulse text-yellow-500"></i>
+                            <span>Recovering</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Saraswati is a young Red Sindhi calf. She was injured when rescued but is recovering well with our care.</p>
+                        <button onclick="openAdoptModal('Saraswati', '3 years', 'Recovering')" class="w-full bg-primary hover:bg-dark text-white py-3 rounded-xl font-semibold transition-all">
+                            Adopt Now <i class="fas fa-paw ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Cow 4 -->
+                <div class="cow-card bg-white rounded-2xl shadow-lg overflow-hidden fade-in">
+                    <div class="h-56 overflow-hidden">
+                        <img src="images/1_Domesticated_Indian_Cow_Grazing_Grass.png" alt="Nandi" class="section-img hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-xl font-bold text-text">Nandi</h3>
+                            <span class="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">Available</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-500 mb-3">
+                            <i class="fas fa-birthday-cake text-primary"></i>
+                            <span>5 years old</span>
+                            <span class="mx-1">•</span>
+                            <i class="fas fa-heart-pulse text-green-500"></i>
+                            <span>Healthy</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Nandi is a strong bull who was rescued from a slaughterhouse. He is now happy and healthy at our goshala.</p>
+                        <button onclick="openAdoptModal('Nandi', '5 years', 'Healthy')" class="w-full bg-primary hover:bg-dark text-white py-3 rounded-xl font-semibold transition-all">
+                            Adopt Now <i class="fas fa-paw ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Cow 5 -->
+                <div class="cow-card bg-white rounded-2xl shadow-lg overflow-hidden fade-in">
+                    <div class="h-56 overflow-hidden">
+                        <img src="images/9_Calf_Grazing_Green_Field_Indian_Calf.png" alt="Kamadhenu" class="section-img hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-xl font-bold text-text">Kamadhenu</h3>
+                            <span class="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">Available</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-500 mb-3">
+                            <i class="fas fa-birthday-cake text-primary"></i>
+                            <span>7 years old</span>
+                            <span class="mx-1">•</span>
+                            <i class="fas fa-heart-pulse text-green-500"></i>
+                            <span>Healthy</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Kamadhenu is a mother cow who was separated from her calf. She has been reunited and is thriving.</p>
+                        <button onclick="openAdoptModal('Kamadhenu', '7 years', 'Healthy')" class="w-full bg-primary hover:bg-dark text-white py-3 rounded-xl font-semibold transition-all">
+                            Adopt Now <i class="fas fa-paw ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Cow 6 -->
+                <div class="cow-card bg-white rounded-2xl shadow-lg overflow-hidden fade-in">
+                    <div class="h-56 overflow-hidden">
+                        <img src="images/3_Cow_eating_grass_in_a_green_field.png" alt="Parvati" class="section-img hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-xl font-bold text-text">Parvati</h3>
+                            <span class="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">Available</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-500 mb-3">
+                            <i class="fas fa-birthday-cake text-primary"></i>
+                            <span>2 years old</span>
+                            <span class="mx-1">•</span>
+                            <i class="fas fa-heart-pulse text-green-500"></i>
+                            <span>Healthy</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Parvati is a playful young calf who was born at our goshala. She loves running around the pasture.</p>
+                        <button onclick="openAdoptModal('Parvati', '2 years', 'Healthy')" class="w-full bg-primary hover:bg-dark text-white py-3 rounded-xl font-semibold transition-all">
+                            Adopt Now <i class="fas fa-paw ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Cow 7 -->
+                <div class="cow-card bg-white rounded-2xl shadow-lg overflow-hidden fade-in">
+                    <div class="h-56 overflow-hidden">
+                        <img src="images/10_Land_of_Sacred_Cows_India_History.png" alt="Radha" class="section-img hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-xl font-bold text-text">Radha</h3>
+                            <span class="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">Available</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-500 mb-3">
+                            <i class="fas fa-birthday-cake text-primary"></i>
+                            <span>8 years old</span>
+                            <span class="mx-1">•</span>
+                            <i class="fas fa-heart-pulse text-yellow-500"></i>
+                            <span>Recovering</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Radha is an elderly cow who needs special care. She was found malnourished but is getting stronger every day.</p>
+                        <button onclick="openAdoptModal('Radha', '8 years', 'Recovering')" class="w-full bg-primary hover:bg-dark text-white py-3 rounded-xl font-semibold transition-all">
+                            Adopt Now <i class="fas fa-paw ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Cow 8 -->
+                <div class="cow-card bg-white rounded-2xl shadow-lg overflow-hidden fade-in">
+                    <div class="h-56 overflow-hidden">
+                        <img src="images/7_Group_of_Indian_cows_grazing_and.png" alt="Durga" class="section-img hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-xl font-bold text-text">Durga</h3>
+                            <span class="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">Available</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-500 mb-3">
+                            <i class="fas fa-birthday-cake text-primary"></i>
+                            <span>5 years old</span>
+                            <span class="mx-1">•</span>
+                            <i class="fas fa-heart-pulse text-green-500"></i>
+                            <span>Healthy</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">Durga is a strong and independent cow. She was rescued from a construction site in Margao.</p>
+                        <button onclick="openAdoptModal('Durga', '5 years', 'Healthy')" class="w-full bg-primary hover:bg-dark text-white py-3 rounded-xl font-semibold transition-all">
+                            Adopt Now <i class="fas fa-paw ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- YouTube Video Section -->
+    <section class="py-20 bg-light">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-in">
+                <span class="text-primary font-semibold text-sm uppercase tracking-wider">Watch Our Story</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-text mt-2">Gomantak Gausevak Mahasangh</h2>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">See how your adoption helps us care for these divine creatures.</p>
+                <div class="w-20 h-1 bg-primary mx-auto mt-4 rounded-full"></div>
+            </div>
+            <div class="video-container shadow-2xl fade-in">
+                <iframe 
+                    src="https://www.youtube.com/embed/vfuMRmZLCB8?rel=0&modestbranding=1" 
+                    title="Gomantak Gausevak Mahasangh Video" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Adoption Info -->
+    <section class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-in">
+                <span class="text-primary font-semibold text-sm uppercase tracking-wider">How It Works</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-text mt-2">Adoption Process</h2>
+                <div class="w-20 h-1 bg-primary mx-auto mt-4 rounded-full"></div>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg text-center fade-in">
+                    <div class="h-40 overflow-hidden">
+                        <img src="images/10_Big_Face_Portrait_Of_Indian_Cows.png" alt="Choose a cow" class="section-img hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="p-8">
+                        <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl font-bold text-primary">1</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-text mb-2">Choose a Cow</h3>
+                        <p class="text-gray-600 text-sm">Browse our cows and select the one you'd like to adopt. Each cow has a unique personality and story.</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg text-center fade-in">
+                    <div class="h-40 overflow-hidden">
+                        <img src="images/2_Volunteer_with_animals_in_India_Volunteer.png" alt="Fill the form" class="section-img hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="p-8">
+                        <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl font-bold text-primary">2</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-text mb-2">Fill the Form</h3>
+                        <p class="text-gray-600 text-sm">Complete the adoption form with your details and select your monthly commitment amount.</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg text-center fade-in">
+                    <div class="h-40 overflow-hidden">
+                        <img src="images/5_Edayanchavadi_India_10th_december.png" alt="Receive updates" class="section-img hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="p-8">
+                        <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl font-bold text-primary">3</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-text mb-2">Receive Updates</h3>
+                        <p class="text-gray-600 text-sm">Get regular updates, photos, and videos of your adopted cow. Visit them anytime!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Google Maps Section -->
+    <section class="py-20 bg-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-in">
+                <span class="text-primary font-semibold text-sm uppercase tracking-wider">Find Us</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-text mt-2">Visit Our Goshala</h2>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">Located in the serene village of Sikeri, Mayem, Bicholim, Goa.</p>
+                <div class="w-20 h-1 bg-primary mx-auto mt-4 rounded-full"></div>
+            </div>
+            <div class="rounded-2xl overflow-hidden shadow-2xl fade-in">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15395.0!2d73.9!3d15.6!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTXCsDM2JzAwLjAiTiA3M8KwNTQnMDAuMCJF!5e0!3m2!1sen!2sin!4v1234567890" 
+                    width="100%" 
+                    height="450" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+            <div class="text-center mt-6">
+                <a href="https://maps.app.goo.gl/axKCg37wPPEwoF1P8" target="_blank" class="inline-flex items-center gap-2 bg-primary hover:bg-dark text-white px-6 py-3 rounded-full font-semibold transition-all shadow-lg hover:shadow-xl">
+                    <i class="fas fa-map-marker-alt"></i> Visit Our Gaushala
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Adoption Modal -->
+    <div class="modal" id="adoptModal">
+        <div class="modal-content">
+            <div class="p-6 border-b border-gray-100 flex items-center justify-between">
+                <div>
+                    <h3 class="text-xl font-bold text-text">Adopt <span id="modalCowName"></span></h3>
+                    <p class="text-sm text-gray-500" id="modalCowDetails"></p>
+                </div>
+                <button onclick="closeAdoptModal()" class="w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors">
+                    <i class="fas fa-times text-gray-600"></i>
+                </button>
+            </div>
+            <div class="p-6">
+                <form id="adoptionForm" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
+                        <input type="text" id="adoptName" class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-primary focus:outline-none transition-colors" placeholder="Enter your full name" required>
+                        <p class="text-red-500 text-xs mt-1 hidden" id="adoptNameError">Please enter your name</p>
+                    </div>
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                            <input type="email" id="adoptEmail" class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-primary focus:outline-none transition-colors" placeholder="your@email.com" required>
+                            <p class="text-red-500 text-xs mt-1 hidden" id="adoptEmailError">Please enter a valid email</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Phone *</label>
+                            <input type="tel" id="adoptPhone" class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-primary focus:outline-none transition-colors" placeholder="+91 9876543210" required>
+                            <p class="text-red-500 text-xs mt-1 hidden" id="adoptPhoneError">Please enter a valid phone</p>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Address *</label>
+                        <textarea id="adoptAddress" rows="2" class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-primary focus:outline-none transition-colors resize-none" placeholder="Your full address" required></textarea>
+                        <p class="text-red-500 text-xs mt-1 hidden" id="adoptAddressError">Please enter your address</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Monthly Commitment *</label>
+                        <div class="grid grid-cols-3 gap-3">
+                            <button type="button" class="amount-select border-2 border-gray-200 rounded-xl py-3 font-bold text-center" data-amount="1000" onclick="selectAdoptionAmount(1000)">Rs.1000</button>
+                            <button type="button" class="amount-select border-2 border-gray-200 rounded-xl py-3 font-bold text-center" data-amount="2000" onclick="selectAdoptionAmount(2000)">Rs.2000</button>
+                            <button type="button" class="amount-select border-2 border-gray-200 rounded-xl py-3 font-bold text-center" data-amount="5000" onclick="selectAdoptionAmount(5000)">Rs.5000</button>
+                        </div>
+                        <input type="hidden" id="selectedAdoptionAmount" value="">
+                        <p class="text-red-500 text-xs mt-1 hidden" id="adoptAmountError">Please select an amount</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Message (Optional)</label>
+                        <textarea id="adoptMessage" rows="2" class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-primary focus:outline-none transition-colors resize-none" placeholder="Any special message..."></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-primary hover:bg-dark text-white py-4 rounded-xl font-bold text-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+                        <span class="hidden" id="adoptSpinner"><i class="fas fa-circle-notch fa-spin mr-2"></i></span>
+                        <i class="fas fa-heart" id="adoptIcon"></i>
+                        Complete Adoption
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="mb-4">
+                        <h3 class="font-bold text-lg">Gomantak Gausevak</h3>
+                        <p class="text-xs text-gray-400">Mahasang</p>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">Largest shelter for stray & abandoned Desi Cows in Goa.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-primary transition-colors">Home</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-primary transition-colors">About Us</a></li>
+                        <li><a href="gallery.html" class="text-gray-400 hover:text-primary transition-colors">Gallery</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-primary transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Get Involved</h4>
+                    <ul class="space-y-2">
+                        <li><a href="donate.html" class="text-gray-400 hover:text-primary transition-colors">Donate</a></li>
+                        <li><a href="adopt.html" class="text-gray-400 hover:text-primary transition-colors">Adopt a Cow</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Contact Us</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3"><i class="fas fa-envelope text-primary mt-1"></i><span class="text-gray-400 text-sm">gomantakgausevak@gmail.com</span></li>
+                        <li class="flex items-start gap-3"><i class="fas fa-phone text-primary mt-1"></i><span class="text-gray-400 text-sm">+91 9226076916</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center">
+                <p class="text-gray-500 text-sm">&copy; 2024 Gomantak Gausevak Mahasang. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="scroll-top fixed bottom-6 right-6 w-12 h-12 bg-primary hover:bg-dark text-white rounded-full shadow-lg flex items-center justify-center z-40 transition-all" id="scrollTop" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Toast -->
+    <div class="toast bg-white rounded-xl shadow-2xl p-4 max-w-sm border-l-4 border-primary" id="toast">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                <i class="fas fa-check text-primary text-sm" id="toastIcon"></i>
+            </div>
+            <div>
+                <p class="font-semibold text-sm text-gray-900" id="toastTitle">Success!</p>
+                <p class="text-xs text-gray-600" id="toastMessage">Operation completed.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/adoption.js"></script>
+</body>
+</html>
