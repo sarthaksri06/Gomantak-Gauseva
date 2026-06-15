@@ -1,6 +1,6 @@
 # Gomantak Gausevak Mahasang
 
-Official website for Goa's largest stray cattle shelter.
+ website for Goa's largest stray cattle shelter.
 
 ## Live Site
 https://sarthaksri06.github.io/Gaumantak-Gauseva
