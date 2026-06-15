@@ -3,7 +3,7 @@
  Website for Goa's largest stray cattle shelter.
 
 ## Live Site
-https://sarthaksri06.github.io/Gaumantak-Gauseva
+https://sarthaksri06.github.io/Gomantak-Gauseva/
 
 ## Features
 - Responsive design with Tailwind CSS
